@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Usage: cronner-wrap <metric spec> <command>
+# Where the arguments are:
+#    metric spec: String in the form of namespace.metric:timer_name. For example, you might pass
+#                 invoicing.crons:charge_customers. This will have cronner emit DataDog metrics
+#                 under "invoicing.crons.time" and "invoicing.crons.exit_code" with a
+#                 "timer: charge_customers" tag.
+#    command: The actual cron command to run, e.g. newrelic-admin run-python -m mnanage charge_customers
+
+set -e
+
+NAMESPACE=$(cut -d'.' -f1 <<< $1)
+METRIC=$(cut -d'.' -f2 <<< $1 | cut -d ':' -f1)
+TIMER=$(cut -d':' -f2 <<< $1)
+COMMAND=$2
+
+DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
+
+cronner -H $DOCKER_HOST -N $NAMESPACE -l $METRIC -t timer:$TIMER -- $COMMAND
