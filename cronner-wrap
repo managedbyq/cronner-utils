@@ -10,10 +10,12 @@
 
 set -e
 
-NAMESPACE=$(cut -d'.' -f1 <<< $1)
-METRIC=$(cut -d'.' -f2 <<< $1 | cut -d ':' -f1)
-TIMER=$(cut -d':' -f2 <<< $1)
-COMMAND=$2
+NAMESPACE=$(echo $1 | cut -d'.' -f1)
+METRIC=$(echo $1 | cut -d'.' -f2 | cut -d ':' -f1)
+TIMER=$(echo $1 | cut -d':' -f2)
+
+shift
+COMMAND=$@
 
 DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
 
