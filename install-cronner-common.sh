@@ -14,4 +14,4 @@ rm -rf /tmp/cronner*
 
 curl -L -o cronner-wrap https://raw.githubusercontent.com/managedbyq/cronner-utils/master/cronner-wrap
 chmod +x cronner-wrap
-mv cronner-wrap /usr/local/bin/cronner-
+mv cronner-wrap /usr/local/bin/cronner-wrap
