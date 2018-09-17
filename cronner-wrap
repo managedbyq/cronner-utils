@@ -19,4 +19,4 @@ COMMAND=$@
 
 DOCKER_HOST=$(ip route | awk '/default/ { print $3 }')
 
-cronner -H $DOCKER_HOST -N $NAMESPACE -l $METRIC -t timer:$TIMER -- $COMMAND
+cronner -p -H $DOCKER_HOST -N $NAMESPACE -l $METRIC -t timer:$TIMER -- $COMMAND
